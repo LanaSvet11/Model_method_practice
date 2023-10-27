@@ -38,9 +38,14 @@ app.get('/books/:id', async (req, res) => {
  
 app.get('/books', async (req, res) => {
     // get all books
-    let books =  await Book.find(books);
-    res.send(books);
-})
+    try {
+        let books = await Book.find(); // Using a different variable name
+        res.send(books);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 
 // insertMany
 app.post('/books', async (req, res) => {
@@ -53,6 +58,14 @@ app.post('/books', async (req, res) => {
 
 // findOne
 
+// Use the "updateOne" method to update the book by its ID
+app.put('/books/:title', async (req, res) => {
+  let title = req.params.title; 
+  console.log(title);
+  let response = await Book.updateMany({title}, {...req.body});
+  console.log(response);
+  res.send(response)
+});
 
 
 
